@@ -1,0 +1,6 @@
+1. npm init
+2. create index.js
+3. npm install express nodemon pg cors dotenv
+4. scripts에 "start": "nodemon index.js", 추가
+
+npm run start로 실행
