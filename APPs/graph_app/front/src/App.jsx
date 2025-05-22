@@ -1,5 +1,5 @@
-import AppBar from './components/baseLayout/AppBar';
-import Sidebar from './components/baseLayout/SideBar';
+import Appbar from './components/baseLayout/Appbar';
+import Sidebar from './components/baseLayout/Sidebar';
 import DashboardScreen from './components/dashboard/DashboardScreen';
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
          <div className="page-wrapper min-h-screen flex w-full">
             <Sidebar />
             <div className="page-wrapper w-full">
-               <AppBar />
+               <Appbar />
                <DashboardScreen />
             </div>
          </div>
