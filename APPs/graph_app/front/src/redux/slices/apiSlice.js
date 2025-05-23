@@ -11,3 +11,42 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { GET_VISITORS_API_URL } from '../../constants/apiUrls';
 import { getRequest } from '../../constants/methods';
+import Visitors from '../../components/dashboard/Visitors';
+
+// 공통된 비동기 액션 생성 함수
+const createFetchThunk = (actionType, apiUrl) => {
+   return createAsyncThunk(actionType, async () => {
+      return await getRequest(apiUrl);
+   });
+};
+
+// GET Visitors data
+export const fetchVisitors = createFetchThunk(
+   'fetchVisitors', // action type
+   GET_VISITORS_API_URL
+);
+
+// 요청 성공 시 함수 정의
+const handleFulfilled = (stateKey) => (state, action) => {
+   state[stateKey] = action.payload; // payload는 요청 성공 시 받은 데이터
+};
+
+// 요청 실패 시 함수 정의
+const handleRejected = (state, action) => {
+   console.log('Error', action.payload);
+   // state.isError = true;
+};
+
+const apiSlice = createSlice({
+   name: 'apis',
+   initialState: {
+      visitorsData: null,
+   },
+   extraReducers: (builder) => {
+      builder
+         .addCase(fetchVisitors.fulfilled, handleFulfilled('visitorsData')) // 요청 성공 시
+         .addCase(fetchVisitors.rejected, handleRejected); // 요청 실패 시
+   },
+});
+
+export default apiSlice.reducer;

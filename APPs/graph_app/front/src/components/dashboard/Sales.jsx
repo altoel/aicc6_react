@@ -15,8 +15,29 @@ const Sales = () => {
                <span>Export</span>
             </div>
          </div>
-
-         <div className="sales-cards flex flex-wrap gap-4 mt-6 sm:grid sm:grid-cols-4">
+         {/* <div className="cats-cards gap-4 mt-6 grid grid-cols-2">
+            <div className="card-left flex flex-col gap-3">
+               <img
+                  src="catImg/c1.jpg"
+                  className="w-full aspect-[16/9] object-cover"
+               />
+               <img
+                  src="catImg/c3.jpg"
+                  className="w-full aspect-[16/9] object-cover"
+               />
+            </div>
+            <div className="card-right flex flex-col gap-3">
+               <img
+                  src="catImg/c2.jpg"
+                  className="w-full aspect-[16/9] object-cover"
+               />
+               <img
+                  src="catImg/c4.jpg"
+                  className="w-full aspect-[16/9] object-cover"
+               />
+            </div>
+         </div> */}
+         <div className="sales-cards flex flex-wrap gap-4 mt-6 sm:grid sm:grid-cols-4 overflow-clip">
             {SALES_LISTS.map((item, idx) => (
                <div
                   key={idx}

@@ -1,10 +1,122 @@
-import React from 'react';
+import React, { useEffect, PureComponent } from 'react';
 import HeadTitle from './HeadTitle';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchVisitors } from '../../redux/slices/apiSlice';
+import {
+   LineChart,
+   Line,
+   XAxis,
+   YAxis,
+   CartesianGrid,
+   Tooltip,
+   Legend,
+   ResponsiveContainer,
+} from 'recharts';
 
 const Visitors = () => {
+   const state = useSelector((state) => state.apis.visitorsData);
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      dispatch(fetchVisitors());
+   }, [dispatch]);
+
+   // console.log(state);
+
+   const formatTooltipValue = (name, value) => {
+      return `${name.replace('_', ' ')} : ${value}`;
+   };
+
+   const CustomTooltip = ({ payload }) => {
+      if (!payload || !payload.length) return null;
+
+      return (
+         <div className="custom-recharts-tooltip">
+            <p className="recharts-tooltip-label">{payload[0].payload.month}</p>
+            <ul className="recharts-tooltip-item-list">
+               {payload.map((item, idx) => (
+                  <li key={idx}>{formatTooltipValue(item.name, item.value)}</li>
+               ))}
+            </ul>
+         </div>
+      );
+   };
+
    return (
       <div className="block-wrap w-full mt-[14px] lg:mt-0">
          <HeadTitle title="Visitors Insights" />
+         <div className="line-chart w-full h-[230px]">
+            <ResponsiveContainer width="100%" height="100%">
+               <LineChart
+                  width={500}
+                  height={300}
+                  data={state}
+                  margin={{
+                     top: 5,
+                     right: 30,
+                     left: 20,
+                     bottom: 5,
+                  }}
+               >
+                  <CartesianGrid
+                     strokeDasharray="3 0"
+                     vertical={false}
+                     horizontal={true}
+                     stroke="#333"
+                  />
+                  <XAxis
+                     dataKey="month"
+                     tickSize={0}
+                     axisLine={false}
+                     padding={{ left: 0 }}
+                     tick={({ payload, x, y, dy }) => (
+                        <text
+                           x={x}
+                           y={y}
+                           dy={dy}
+                           fontSize={14}
+                           fill="#777"
+                           textAnchor="middle"
+                        >
+                           {payload.value}
+                        </text>
+                     )}
+                  />
+                  <YAxis
+                     tickSize={0}
+                     axisLine={false}
+                     ticks={[0, 100, 200, 300, 400]}
+                     tick={{
+                        fill: '#777',
+                        fontSize: 14,
+                     }}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend iconType="plainline" />
+                  <Line
+                     dot={false}
+                     type="basis"
+                     dataKey="loyal_customer"
+                     stroke="#8884d8"
+                     strokeWidth={2}
+                  />
+                  <Line
+                     dot={false}
+                     type="basis"
+                     dataKey="new_customer"
+                     stroke="#a700ff"
+                     strokeWidth={2}
+                  />
+                  <Line
+                     dot={false}
+                     type="basis"
+                     dataKey="unique_customer"
+                     stroke="#3cd856"
+                     strokeWidth={2}
+                  />
+               </LineChart>
+            </ResponsiveContainer>
+         </div>
       </div>
    );
 };
