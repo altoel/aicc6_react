@@ -9,9 +9,13 @@
 // 리듀서를 생성해주는 기능은 없기 때문에 액션들을 처리할 로직을 직접 작성해야 한다.
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { GET_VISITORS_API_URL } from '../../constants/apiUrls';
+import {
+   GET_VISITORS_API_URL,
+   GET_REVENUE_API_URL,
+   GET_CUSTOMERS_API_URL,
+   GET_TARGET_REALITY_API_URL,
+} from '../../constants/apiUrls';
 import { getRequest } from '../../constants/methods';
-import Visitors from '../../components/dashboard/Visitors';
 
 // 공통된 비동기 액션 생성 함수
 const createFetchThunk = (actionType, apiUrl) => {
@@ -20,11 +24,31 @@ const createFetchThunk = (actionType, apiUrl) => {
    });
 };
 
+//---
 // GET Visitors data
 export const fetchVisitors = createFetchThunk(
    'fetchVisitors', // action type
    GET_VISITORS_API_URL
 );
+
+// GET Revenue data
+export const fetchRevenue = createFetchThunk(
+   'fetchRevenue', // action type
+   GET_REVENUE_API_URL
+);
+
+// GET Customer data
+export const fetchCustomer = createFetchThunk(
+   'fetchCustomer', // action type
+   GET_CUSTOMERS_API_URL
+);
+
+// GET TargetReality data
+export const fetchTargetReality = createFetchThunk(
+   'fetchTargetReality', // action type
+   GET_TARGET_REALITY_API_URL
+);
+//---
 
 // 요청 성공 시 함수 정의
 const handleFulfilled = (stateKey) => (state, action) => {
@@ -41,11 +65,23 @@ const apiSlice = createSlice({
    name: 'apis',
    initialState: {
       visitorsData: null,
+      revenueData: null,
+      customerData: null,
+      targetRealityData: null,
    },
    extraReducers: (builder) => {
       builder
          .addCase(fetchVisitors.fulfilled, handleFulfilled('visitorsData')) // 요청 성공 시
-         .addCase(fetchVisitors.rejected, handleRejected); // 요청 실패 시
+         .addCase(fetchVisitors.rejected, handleRejected) // 요청 실패 시
+         .addCase(fetchRevenue.fulfilled, handleFulfilled('revenueData'))
+         .addCase(fetchRevenue.rejected, handleRejected)
+         .addCase(fetchCustomer.fulfilled, handleFulfilled('customerData'))
+         .addCase(fetchCustomer.rejected, handleRejected)
+         .addCase(
+            fetchTargetReality.fulfilled,
+            handleFulfilled('targetRealityData')
+         )
+         .addCase(fetchTargetReality.rejected, handleRejected);
    },
 });
 
