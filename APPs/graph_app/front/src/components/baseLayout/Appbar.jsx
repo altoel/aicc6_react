@@ -22,21 +22,21 @@ const Appbar = () => {
             </div>
             <div className="appbar-right flex items-center gap-4">
                <div className="appbar-search">
-                  <form className="input-group flex items-center bg-gray-700 lg:h-11 h-9 min-w-20 lg:min-w-80 sm:min-w-60 lg:py-1 lg:px-3 px2 rounded-xl">
+                  <form className="input-group flex items-center bg-gray-700 lg:h-11 h-9 min-w-20 lg:min-w-80 sm:min-w-60 lg:py-1 py-0 lg:px-3 px-2 rounded-xl">
                      <span className="input-icon w-5 flex place-content-center">
                         <img src={Icons.SearchBlue} alt="" />
                      </span>
                      <input
                         type="text"
                         placeholder="Search here..."
-                        className="outline-0 lg:text-[15px] text-[12px] bg-gray-700 text-white px-3 placeholder-gray-400 w-[70] sm:w-full"
+                        className="outline-0 lg:text-[15px] text-[12px] bg-gray-700 text-white px-3 placeholder-gray-400 w-[70px] sm:w-full"
                      />
                   </form>
                </div>
                <AppbarLang />
                <button className="notification relative block rounded-md w-8 h-8">
-                  <span className="w-2 h-2 rounded-full bg-red-600 absolute top-1 right-2"></span>
                   <img src={Icons.NotificationOrange} alt="" className="w-6" />
+                  <span className="w-2 h-2 rounded-full bg-red-600 absolute top-1 right-2"></span>
                </button>
                <AppbarProfile />
             </div>
