@@ -15,6 +15,6 @@ exports.postTask = async (req, res) => {
     );
     return res.status(201).json({ msg: 'Task Created Successfully' });
   } catch (error) {
-    return res.status(500).json({ msg: 'Post Task Fail' + error });
+    return res.status(500).json({ msg: 'Post Task Fail: ' + error });
   }
 };

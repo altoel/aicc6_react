@@ -40,10 +40,10 @@ const Navbar = ({ activeIdx }) => {
       setIsAuth(false);
     }
 
-   useEffect(() => {
-      const storedAuthData = JSON.parse(localStorage.getItem('authData'))
-      console.log(storedAuthData);
-   } , [dispatch])
+   // useEffect(() => {
+   //    const storedAuthData = JSON.parse(localStorage.getItem('authData'))
+   //    // console.log(storedAuthData);
+   // } , [dispatch])
 
 
    return (
