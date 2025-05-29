@@ -6,6 +6,7 @@ import PageTitle from './PageTitle';
 import { fetchGetItems } from '../../redux/slices/apiSlice';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import LoadingSkeleton from './LoadingSkeleton';
+import Modal from './Modal';
 
 const ItemPanel = ({ pageTitle }) => {
    // Auth Data Variables
@@ -18,6 +19,9 @@ const ItemPanel = ({ pageTitle }) => {
 
    // loading state
    const [loading, setLoading] = useState(false);
+
+   // modal state
+   const isOpen = useSelector((state) => state.modal.isOpen);
 
    useEffect(() => {
       if (!userKey) return;
@@ -40,6 +44,7 @@ const ItemPanel = ({ pageTitle }) => {
       <div className="panel bg-[#212121] w-4/5 h-full rounded-md border border-gray-500 py-5 px-4 overflow-y-auto">
          {userKey ? (
             <div className="login-message w-full h-full">
+               {isOpen && <Modal />}
                <PageTitle title={pageTitle} />
                <div className="flex flex-wrap">
                   {/* {getTasksData?.map((task, idx) => (

@@ -14,37 +14,41 @@ const Navbar = ({ activeIdx }) => {
    const user = useSelector((state) => state.auth.authData);
    const dispatch = useDispatch();
    const { name } = user || {};
-   const [isAuth, setIsAuth] = useState(false);
+   const [isAuth, setIsAuth] = useState(!!name);
 
    //console.log(name);
 
    // useCallback 사용 이유: 함수 재생성 방지, 성능 최적화
-   const handleLoginSuccess = useCallback((credentialResponse) => {
-      try {
-         const decoded = jwtDecode(credentialResponse.credential);
-         dispatch(login({
-            authData: decoded,
-         }));
-         setIsAuth(true);
-      } catch (error) { 
-         console.log('Google Login Error', error);
-      }
-   }, [dispatch]);
-   
+   const handleLoginSuccess = useCallback(
+      (credentialResponse) => {
+         try {
+            const decoded = jwtDecode(credentialResponse.credential);
+            dispatch(
+               login({
+                  authData: decoded,
+               })
+            );
+            setIsAuth(true);
+         } catch (error) {
+            console.log('Google Login Error', error);
+         }
+      },
+      [dispatch]
+   );
+
    const handleLoginError = (error) => {
       console.log('Google Login Error', error);
-    };
+   };
 
-    const handleLogoutClick = () => {
+   const handleLogoutClick = () => {
       dispatch(logout());
       setIsAuth(false);
-    }
+   };
 
    // useEffect(() => {
    //    const storedAuthData = JSON.parse(localStorage.getItem('authData'))
    //    // console.log(storedAuthData);
    // } , [dispatch])
-
 
    return (
       <nav className="bg-[#212121] w-1/5 h-full rounded-sm border border-gray-500 py-10 px-4 flex flex-col justify-between items-center">
@@ -73,33 +77,30 @@ const Navbar = ({ activeIdx }) => {
             ))}
          </ul>
 
-            {
-               isAuth ? (
-                  <div className="w-4/5 flex items-center">
-                     <button
-                        className="flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-3 px-4 rounded-md w-full"
-                        onClick={handleLogoutClick}
-                     >
-                        <FcGoogle className="w-5 h-5"/>
-                        <span className="text-sm">{name} 님 로그아웃</span>
-                     </button>
-                  </div>
-               ) : (
-                  <div className="auth-wrapper flex justify-center w-4/5 login-btn">
-                     <GoogleOAuthProvider clientId={googleClientId}>
-                        <GoogleLogin
-                           onSuccess={handleLoginSuccess}
-                           onError={handleLoginError}
-                        />
-                        <button className="flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-3 px-4 rounded-md w-full">
-                           <FcGoogle className="w-5 h-5"/>
-                           <span className="text-sm">Google Login</span>
-                        </button>
-                     </GoogleOAuthProvider>
-                  </div>
-               )}
-
-         
+         {isAuth ? (
+            <div className="w-4/5 flex items-center">
+               <button
+                  className="flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-3 px-4 rounded-md w-full"
+                  onClick={handleLogoutClick}
+               >
+                  <FcGoogle className="w-5 h-5" />
+                  <span className="text-sm">{name} 님 로그아웃</span>
+               </button>
+            </div>
+         ) : (
+            <div className="auth-wrapper flex justify-center w-4/5 login-btn">
+               <GoogleOAuthProvider clientId={googleClientId}>
+                  <GoogleLogin
+                     onSuccess={handleLoginSuccess}
+                     onError={handleLoginError}
+                  />
+                  <button className="flex justify-center items-center gap-2 bg-gray-300 text-gray-900 py-3 px-4 rounded-md w-full">
+                     <FcGoogle className="w-5 h-5" />
+                     <span className="text-sm">Google Login</span>
+                  </button>
+               </GoogleOAuthProvider>
+            </div>
+         )}
       </nav>
    );
 };
