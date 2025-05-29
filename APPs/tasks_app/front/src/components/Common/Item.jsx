@@ -113,8 +113,8 @@ const Item = ({ task }) => {
         </div>
         <div className="lower">
           <p className="text-sm mb-1">{date}</p>
-          <div className="item-footer flex justify-between">
-            <div className="item-footer-left flex gap-2">
+          <div className="item-footer flex flex-wrap justify-between gap-2">
+            <div className="item-footer-left flex flex-wrap gap-2">
               {iscompleted ? (
                 <button
                   className="block py-1 px-4 bg-green-400 text-sm text-white rounded-md"
